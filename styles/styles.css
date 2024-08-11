@@ -1,0 +1,251 @@
+:root{
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(61, 61, 61, 0.2));
+}
+.side_panel{
+    width: fit-content;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+.side_panel svg{
+    opacity: 0.7;
+}
+.side_panel svg:hover{
+    opacity: 1;
+}
+.page_content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: justify;
+    margin-left: 150px;
+    margin-right: 50px;
+    position: relative;
+}
+body{
+    font-size: 1.5rem;
+}
+#circuit_equation, input {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+#circuit_equation {
+    display: block;
+    font-size: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 10px;
+    background-color: whitesmoke;
+    min-width: 250px;
+    overflow-x: auto;
+    overflow-wrap: normal;
+    width: 300px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+.final_results div{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.final_results div *{
+    margin-bottom: 1em;
+}
+mjx-container{
+    display: block;
+    overflow-y: hidden;
+    overflow-x: auto;
+    left: 50%;
+    transform: translate(-50%, 0);
+    max-width: 70%;
+    padding: 1px;
+}
+#element_inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: fit-content;
+}
+#inputs{
+    margin-top: 2rem;
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    align-items: flex-end;
+    width: fit-content;
+}
+#calculate_button{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+select{
+    font-size: 1.5rem;
+    padding: 3px;
+    background: transparent;
+    border: none;
+    font-family: 'Times New Roman';
+}
+#calculation_steps{
+    text-align: center;
+    width: 100%;
+}
+.equation_wrapper{
+    justify-content: center;
+    text-align: center;
+}
+.equation_wrapper input[type=button]{
+    vertical-align: middle;
+}
+[contenteditable=true]:empty:not(:focus)::before{
+    content:attr(placeholder);
+    color: gray;
+    pointer-events: none;
+}
+.help{
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    font-size: 0.9rem;
+    content: '?';
+    color: black;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 1rem;
+    cursor:pointer;
+    position: relative;
+    top: -2rem;
+    background-color: white;
+}
+.help::before{
+    content: '?';
+}
+.help .help_wrapper{
+    left: 50px;
+    background-color: white;
+    border-radius: 10px;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%) scale(0);
+    position: fixed;
+    overflow-y: auto;
+    max-height: 50%;
+    max-width: 30%;
+    cursor: default;
+    transition: 0.3s;
+}
+.help .help_wrapper *{
+    margin: 10px;
+}
+.help:hover .help_wrapper, .help:active .help_wrapper,.help[clicked=true] .help_wrapper{
+    transform: translate(-50%, -20%) scale(1);
+}
+input{
+    font-size: 2rem;
+    margin: 10px;
+}
+::-webkit-scrollbar{
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 5px;
+  }
+
+::-webkit-scrollbar-thumb {
+    background: rgb(83, 83, 83); 
+    border-radius: 5px;
+} 
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(63, 63, 63); 
+}
+.side_panel nav{
+    max-width: 0;
+    transition: max-width 0.3s;
+    transition-timing-function: linear;
+    left: 0px;
+    top: 0px;
+    background-color: rgb(29, 29, 29);
+    overflow-x: hidden;
+    height: 100vh;
+    position: absolute;
+}
+
+.side_panel nav a{
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+.side_panel nav a:hover{
+    color: #f1f1f1;
+}
+
+.side_panel:hover nav, .side_panel:active nav{
+    max-width: 350px;
+}
+
+canvas {
+    max-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.circuit_popup div mjx-container{
+    max-width: 100%;
+    display: block;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin: 0;
+}
+.circuit_popup {
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+    padding-bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    box-shadow: 0px 0px 7px 3px black;
+    width: max-content;
+}
+.circuit_popup *{
+    margin-bottom: 1px;
+}
+
+@media (min-width:1400px) {
+    .page_content {
+        margin-left: 350px;
+    }
+    .side_panel nav{
+        max-width: 350px;
+    }
+    .help .help_wrapper{
+        left: 60%;
+        transform: translate(-60%, -30%) scale(0);
+    }
+}
+
+@media (min-width:1100px) {
+    #circuit_equation {
+        display: inline-block;  
+        vertical-align:middle;
+    }
+}
+
+@media (max-width:800px) {
+    #inputs *{
+        display: block;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
