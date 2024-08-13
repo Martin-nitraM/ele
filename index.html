@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Základy elektrotechniky</title>
     <link rel="stylesheet" href="styles/styles.css">
+    <script src="scripts/common.js"></script>
 </head>
 <body>
     <div class="side_panel">
@@ -41,28 +42,6 @@
     </div>
     <div class="copy_right">
         &copy; 2024 Martin V.
-    </div>
-    <script>
-        let helps = document.getElementsByClassName('help');
-        let unClicked = false;
-        let lastClickedHelp;
-        document.addEventListener('mousedown', () => {
-            if (!unClicked) unClick(lastClickedHelp);
-            unClicked = false;
-        });
-        for (const help of helps) {
-            help.addEventListener('mousedown', () => {
-                unClick(lastClickedHelp);
-                lastClickedHelp = help;
-                help.setAttribute('clicked', 'true');
-                unClicked = true;
-            });
-        }
-
-        function unClick(help) {
-            if (help) help.setAttribute('clicked', 'false');
-        }
-    </script>
-    
+    </div>   
 </body>
 </html>

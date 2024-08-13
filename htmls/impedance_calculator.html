@@ -13,6 +13,7 @@
     <script src="../scripts/Circuits/ImpedanceCircuit.js"></script>
     <script defer src="../scripts/Circuits/impedanceCalculator.js"></script>
     <script defer src="../scripts/Circuits/CircuitPopupWindow.js"></script>
+    <script defer src="../scripts/common.js"></script>
 </head>
 <body>
     <div class="side_panel">
@@ -60,7 +61,7 @@
         </div>
         <div id="inputs">
             <div>
-                <span>Frekvence[Hz]</span><input type="number" min="0.001" value="1" id="frequency_input">
+                <span>Frekvence[Hz]</span><input type="number" min="0.001" value="1" id="frequency_input" onchange="checkValue(this)">
             </div>
             <div id="element_inputs">
 
@@ -69,7 +70,7 @@
                 <select id="voltage_current_select">
                     <option value="I">Im[A]</option>
                     <option value="U">Um[V]</option>           
-                </select><input type="number" min="0.001" value="1" id="voltage_current_input">
+                </select><input type="number" min="0.001" value="1" id="voltage_current_input" onchange="checkValue(this)">
             </div> 
             <div id="calculate_button">
                 <input type="button" value="Vypočítat" onclick="calculate()">
@@ -83,27 +84,5 @@
     <div class="copy_right">
         &copy; 2024 Martin V.
     </div>
-    <script>
-        let helps = document.getElementsByClassName('help');
-        let unClicked = false;
-        let lastClickedHelp;
-        document.addEventListener('mousedown', () => {
-            if (!unClicked) unClick(lastClickedHelp);
-            unClicked = false;
-        });
-        for (const help of helps) {
-            help.addEventListener('mousedown', () => {
-                unClick(lastClickedHelp);
-                lastClickedHelp = help;
-                help.setAttribute('clicked', 'true');
-                unClicked = true;
-            });
-        }
-
-        function unClick(help) {
-            if (help) help.setAttribute('clicked', 'false');
-        }
-    </script>
-    
 </body>
 </html>

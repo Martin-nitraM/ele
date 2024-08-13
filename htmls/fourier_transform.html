@@ -10,6 +10,7 @@
     <script defer src="../scripts/ComplexNumbers/ComplexNumber.js"></script>
     <script defer src="../scripts/FourierTransform/FourierTransformCalculator.js"></script>
     <script src="../scripts/MathJax/tex-chtml.js"></script>
+    <script defer src="../scripts/common.js"></script>
     <title>Fourierova transformace</title>
 </head>
 <body>
@@ -114,27 +115,6 @@
     <div class="copy_right">
         &copy; 2024 Martin V.
     </div>
-    <script>
-        let helps = document.getElementsByClassName('help');
-        let unClicked = false;
-        let lastClickedHelp;
-        document.addEventListener('mousedown', () => {
-            if (!unClicked) unClick(lastClickedHelp);
-            unClicked = false;
-        });
-        for (const help of helps) {
-            help.addEventListener('mousedown', () => {
-                unClick(lastClickedHelp);
-                lastClickedHelp = help;
-                help.setAttribute('clicked', 'true');
-                unClicked = true;
-            });
-        }
-
-        function unClick(help) {
-            if (help) help.setAttribute('clicked', 'false');
-        }
-    </script>
     <script>
         MathJax.typeset();
     </script>

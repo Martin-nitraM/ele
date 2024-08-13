@@ -61,21 +61,6 @@ function createElementInput(elementName) {
     return createDiv(elementName, 'μF');
 }
 
-function createDiv(name, units) {
-    let div = document.createElement('div');
-    let span = document.createElement('span');
-    span.innerHTML = `${name}[${units}]`;
-    let input = document.createElement('input');
-    input.type = 'number';
-    input.value = '1';
-    input.min = '0.001';
-    input.name = name;
-    elementInputValues.push(input);
-    div.appendChild(span);
-    div.appendChild(input);
-    return div;
-}
-
 function calculate() {
     for(let elementValue of elementInputValues) {
         circuit.substitute(elementValue.name, getCapacity(elementValue.value));
