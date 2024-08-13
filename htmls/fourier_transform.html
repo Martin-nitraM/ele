@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="cz">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../styles/styles.css" />
+    <script src="../scripts/FourierTransform/DrawLibrary.js"></script>
+    <script src="../scripts/FourierTransform/FourierTransform.js"></script>
+    <script defer src="../scripts/ComplexNumbers/ComplexNumber.js"></script>
+    <script defer src="../scripts/FourierTransform/FourierTransformCalculator.js"></script>
+    <script src="../scripts/MathJax/tex-chtml.js"></script>
+    <title>Fourierova transformace</title>
+</head>
+<body>
+    <div class="side_panel">
+        <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg" id="side_panel_button">
+            <line x1="20%" y1="20%" x2="90%" y2="20%" stroke="black" stroke-linecap="round" stroke-width="10%"/>
+            <line x1="20%" y1="50%" x2="90%" y2="50%" stroke="black" stroke-linecap="round" stroke-width="10%"/>
+            <line x1="20%" y1="80%" x2="90%" y2="80%" stroke="black" stroke-linecap="round" stroke-width="10%"/>
+        </svg>
+        <nav>
+            <a href="../index.html">Domů</a>
+            <a href="impedance_calculator.html">Kalkulačka impedancí</a>
+            <a href="resistor_calculator.html">Kalkulačka odporů</a>     
+            <a href="capacitor_calculator.html">Kalkulačka kondenzátorů</a>
+        </nav>
+    </div>
+    <div class="page_content">
+        <div style="height: 1rem;"></div>
+        <div style="width: 100%; text-align: center;">
+            <h1>Fourierova transformace</h1>
+            <div class="help">
+                <div class="help_wrapper">
+                    <h2>Nápověda</h2>
+                    <div>
+                        Výtejte na stránce demonstrující princip fungování diskrétní fourierovy transformace a inverzní diskrétní fourierovy transformace.
+                    </div>
+                    <div>
+                        Na jednotlivý animacích můžete vidět průběhy periodických funkcí. Na začátku budou u všech animací zobrazeny pouze funkce sinus, nicméně po přidávání jednotlivých frekvenčních složek dojde k postupnému přibližování vykreslovaného signálu k signálu kýženému.
+                    </div>
+                    <div>
+                        Frekvenční složky je možné přidávat pomocí posuvníků a číselných vstupů.
+                    </div>
+                    <div>
+                        Nad každou animací je zobrazena rovnice na základě které probíhá inverzní diskrétní furierova transformace - animace, které zde vidíte, jsou grafickým znázorněním této matematické operace.
+                    </div>
+                    <div>
+                        Rovnice jsou vyjádřeny pro signály o frekvenci a amplitudě 1.
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <h2>Obdélníkový průběh</h2>
+        <div style="width: 100%;">
+            $$x_{(k)}= \frac{4}{\pi} \sum_{n=0}^{N-1}\frac{sin(2 \pi k \frac{2n+1}{N})}{2n + 1}$$
+        </div>
+        <div>
+            <div>Počet harmonických funkcí</div>
+            <input id="square_range" type="range" min="1" max="333" oninput="setVectorsCount(this.value, 0, document.getElementById('square_input'))" value="1">
+            <input id="square_input" type="number" min="1" max="333" value="1" step="1.0" onchange="setVectorsCount(this.value, 0, document.getElementById('square_range'))">
+        </div>
+        <canvas class="ft_canvas" id="square_canvas" width="1299" height="333"></canvas>
+        <h2>Pilový průběh</h2>
+        <div style="width: 100%;">
+            $$x_{(k)}=\frac{2}{\pi} \sum_{n=0}^{N-1}\frac{sin(2 \pi k \frac{n+1}{N})}{n + 1}$$
+        </div>
+        <div>
+            <div>Počet harmonických funkcí</div>
+            <input id="saw_range" type="range" min="1" max="333" oninput="setVectorsCount(this.value, 1, document.getElementById('saw_input'))" value="1">
+            <input id="saw_input" type="number" min="1" max="333" value="1" step="1.0" onchange="setVectorsCount(this.value, 1, document.getElementById('saw_range'))">
+        </div>
+        <canvas class="ft_canvas" id="saw_canvas" width="1299" height="333"></canvas>
+        <h2>Trojúhelníkový průběh</h2>
+        <div style="width: 100%;">
+            $$x_{(k)}=\frac{8}{\pi ^ 2} \sum_{n=0}^{N-1}\frac{(-1)^{n}}{(2n + 1)^2} \cdot  sin(2\pi k \frac{2n + 1}{N})$$
+        </div>
+        <div>
+            <div>Počet harmonických funkcí</div>
+            <input id="triangle_range" type="range" min="1" max="333" oninput="setVectorsCount(this.value, 2, document.getElementById('triangle_input'))" value="1">
+            <input id="triangle_input" type="number" min="1" max="333" value="1" step="1.0" onchange="setVectorsCount(this.value, 2, document.getElementById('triangle_range'))">
+        </div>
+        <canvas class="ft_canvas" id="triangle_canvas" width="1299" height="333"></canvas>
+        <div style="width: 100%; text-align: center;">
+            <h2>Libovolný průběh</h2>
+            <div class="help">
+                <div class="help_wrapper">
+                    <h2>Nápověda</h2>
+                    <div>
+                        Zde můžete do prvního plátna nakreslit jedním tahem libovolný obrázek, který bude následně pomocí diskrétní fourierovy transformace (DFT) převeden na frekvenční složky.
+                    </div>
+                    <div>
+                        Ve druhém plátně bude poté zobrazena grafická reprezentace inverzní diskrétní fourierovy transformace (IDFT).
+                    </div>
+                    <div>
+                        Pomocí vstupů nad plátny je opět možné nastavit počet harmonických složek - čím větší bude množství složek tím blíže bude obrázek vykreslený na základě IDFT předloze.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width: 100%;">
+            $$x_{(k)}= \frac{1}{N} \sum_{n=0}^{N-1}X(n) \cdot (cos(2\pi k \frac{n}{N}) + j \cdot sin(2\pi k \frac{n}{N}))$$
+        </div>
+        <div class="RangeInput">
+            <div>Počet harmonických funkcí</div>
+            <input id="image_range" type="range" min="1" max="1" oninput="setVectorsCount(this.value, 3, document.getElementById('image_input'))" value="333">
+            <input id="image_input" type="number" min="1" max="1" value="1" step="1.0" onchange="setVectorsCount(this.value, 3, document.getElementById('image_range'))">
+        </div>
+        <div class="draw_canvas_container">
+            <canvas class="ft_canvas" id="image_canvas" width="621" height="421"></canvas>
+            <canvas class="ft_canvas" id="fourier_canvas" width="621" height="421"></canvas>
+        </div>
+    </div>
+    <div class="copy_right">
+        &copy; 2024 Martin V.
+    </div>
+    <script>
+        let helps = document.getElementsByClassName('help');
+        let unClicked = false;
+        let lastClickedHelp;
+        document.addEventListener('mousedown', () => {
+            if (!unClicked) unClick(lastClickedHelp);
+            unClicked = false;
+        });
+        for (const help of helps) {
+            help.addEventListener('mousedown', () => {
+                unClick(lastClickedHelp);
+                lastClickedHelp = help;
+                help.setAttribute('clicked', 'true');
+                unClicked = true;
+            });
+        }
+
+        function unClick(help) {
+            if (help) help.setAttribute('clicked', 'false');
+        }
+    </script>
+    <script>
+        MathJax.typeset();
+    </script>
+</body>
+</html>

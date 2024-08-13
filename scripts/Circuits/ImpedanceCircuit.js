@@ -101,14 +101,14 @@ class ImpedanceCircuit extends Circuit{
      * @param {ComplexNumber} voltage 
      */
     calculateFromVoltage(voltage) {
-        this.calculateParallel(voltage.divide(new ComplexNumber(Math.SQRT2, 0)), this.expressionTree, null);
+        this.calculateParallel(voltage, this.expressionTree, null);
     }
     /**
      * Calculates circuit values from current
      * @param {ComplexNumber} current 
      */
     calculateFromCurrent(current) {
-        this.calculateSerial(current.divide(new ComplexNumber(Math.SQRT2, 0)), this.expressionTree, null);
+        this.calculateSerial(current, this.expressionTree, null);
     }
     /**
      * Recursive function for calculating and storing circuit values
@@ -119,7 +119,7 @@ class ImpedanceCircuit extends Circuit{
      */
     calculate(serialQuantity, parallelQuantity, node, parentNode) {
         super.calculate(serialQuantity, parallelQuantity, node, parentNode);
-        let power = serialQuantity.conjugate().multiply(parallelQuantity);   
+        let power = serialQuantity.conjugate().multiply(parallelQuantity).divide(new ComplexNumber(2, 0));   
         this.values.set(node, {impedance: node.value, current: serialQuantity, voltage: parallelQuantity, power: power, name: node.stringValue});
     }
     /**

@@ -5,6 +5,29 @@ class Circuit {
     static inductorImage = this.#createInductorImage(this.#imageSize.w, this.#imageSize.h);
     static impedanceImage = this.#createImpedanceImage(this.#imageSize.w, this.#imageSize.h);
     /**
+     * Returns random circuit equation
+     * @param {string[]} prefixes 
+     * @returns 
+     */
+    static randomEquation(prefixes) {
+        let indexes = new Array(prefixes.length).fill(1);
+
+        function randomEquation(depth) {
+            if (depth == 0) {
+                let index = Math.floor(Math.random() * prefixes.length);
+                return prefixes[index] + indexes[index]++;
+            }
+            let left = randomEquation(depth-1);
+            let right = randomEquation(depth-1);
+            if (Math.random() < 0.5) {
+                if (Math.random() < 0.5 && depth > 1) return "(" + left + ")|(" + right + ")";
+                return left + "|" + right;
+            }
+            return left + "_" + right;
+        }
+        return randomEquation(3);
+    }
+    /**
      * Reduce expression nodes by a function extracting a value from each node into string
      * @param {ExpressionNode[]} nodes
      * @param {Function} valueFunction
@@ -343,10 +366,13 @@ class Circuit {
             context.fillText(value, position.x + Circuit.#imageSize.w / 2, position.y + 1);
             context.canvas.addEventListener('mousemove', (event) => {
                 let rect = event.target.getBoundingClientRect();
-                let x = event.clientX - rect.x;
-                let y = event.clientY - rect.y;
+                let x = (event.clientX - rect.left) * (event.target.width / rect.width);
+                let y = (event.clientY - rect.top) * (event.target.height / rect.height);
                 if (x > position.x && x < position.x + Circuit.#imageSize.w && y > position.y && y < position.y + Circuit.#imageSize.h) {
-                    this.#displayElementValues(this.values.get(node), {x: rect.x, y: rect.y + window.scrollY - 230});
+                    let values = this.values.get(node);
+                    if (!values) return;
+                    //y = position.y * rect.height / event.target.height + rect.top;
+                    this.#displayElementValues(values, {x: rect.x, y: rect.y + window.scrollY});
                 }
             });
         } else {

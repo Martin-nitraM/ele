@@ -8,8 +8,11 @@ const elementInputs = document.getElementById("element_inputs");
 const voltageChargeSelect = document.getElementById("voltage_charge_select");
 const voltageChargeInput = document.getElementById("voltage_charge_input");
 const calculationSteps = document.getElementById("calculation_steps");
+const equationInput = document.getElementById('circuit_equation');
+const mainImageContainer = document.getElementById('main_image');
 
-function setEquation(equation) {
+function setEquation() {
+    let equation = equationInput.innerText;
     if (validate(equation)) {
         circuit = new CapacitorCircuit(equation);
         let variables = circuit.variables;
@@ -17,6 +20,10 @@ function setEquation(equation) {
     } else {
         alert("Neplatný zápis obvodu.")
     }
+}
+
+function createRandom() {
+    equationInput.innerText = Circuit.randomEquation(['C']);
 }
 
 function validate(text) {
@@ -41,6 +48,8 @@ function validate(text) {
 function createElementInputs(elementNames) {
     calculationSteps.innerHTML = '';
     elementInputs.innerHTML = '';
+    mainImageContainer.innerHTML = '';
+    mainImageContainer.appendChild(circuit.mainImage);
     elementInputValues = [];
     for (const elementName of elementNames) {
         elementInputs.appendChild(createElementInput(elementName));

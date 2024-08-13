@@ -5,87 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="styles/styles.css">
-    <script type="text/javascript" id="MathJax-script" async src="MathJax/tex-chtml.js"></script>
-    <script src="MathJax/helperFunctions.js"></script>
-    <script src="ComplexNumbers/ComplexNumber.js"></script>
-    <script src="BinaryExpressionTree/BinaryExpressionTree.js"></script>
-    <script src="Circuits/Circuit.js"></script>
-    <script src="Circuits/ImpedanceCircuit.js"></script>
-    <script defer src="impedanceCalculator.js"></script>
-    <script defer src="Circuits/CircuitPopupWindow.js"></script>
 </head>
 <body>
     <div class="side_panel">
-        <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+        <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg" id="side_panel_button">
             <line x1="20%" y1="20%" x2="90%" y2="20%" stroke="black" stroke-linecap="round" stroke-width="10%"/>
             <line x1="20%" y1="50%" x2="90%" y2="50%" stroke="black" stroke-linecap="round" stroke-width="10%"/>
             <line x1="20%" y1="80%" x2="90%" y2="80%" stroke="black" stroke-linecap="round" stroke-width="10%"/>
         </svg>
         <nav>
-            <a href="index.html">Domů</a>
-            <a href="index.html">Fourierova transformace</a>
-            <a href="index.html">Kalkulačka odporů</a>
+            <a href="htmls/fourier_transform.html">Fourierova transformace</a>
+            <a href="htmls/impedance_calculator.html">Kalkulačka impedancí</a>    
+            <a href="htmls/resistor_calculator.html">Kalkulačka rezistorů</a>     
+            <a href="htmls/capacitor_calculator.html">Kalkulačka kondenzátorů</a>
         </nav>
     </div>
     
     <div class="page_content" id="page_content">
-        <div class="equation_wrapper">
-            <input type="button" value="Náhodný obvod">
-            <div contenteditable="true" id="circuit_equation" placeholder="Popis obvodu"></div>
-            <input type="button" value="Zadat obvod" onclick="setEquation(document.getElementById('circuit_equation').innerText)">
-            <div class="help">
+        <h1>Základy elektrotechniky</h1>
+        <div style="width: 100%; text-align: justify;">
+            Výtejte ve webové aplikaci pro názornou demonstraci látky z předmětu základy elektrotechniky. Aplikace obsahuje celkem čtyři moduly - Fourierova transformace, Kalkulačka impedancí, Kalkulačka rezistorů a Kalkulačka kondenzátorů. Do jednotlivých modulů je možné přejít pomocí bočního panelu. V každém modulu je možné zobrazit nápovědu pomocí najetí myší anebo kliknutí na následující tlačítko
+            <div class="help" style="top: 0;">
                 <div class="help_wrapper">
                     <h2>Nápověda</h2>
                     <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, in iure molestias et quod eligendi, cumque est, optio quis voluptas autem nihil? Tempore, repudiandae quo! Esse unde odit error sequi.
+                        Pokud na tlačítko nápovědy pouze najedete myší, nápověda se uzavře po přesunu myši mimo okno a tlačítko nápovědy.
                     </div>
                     <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, in iure molestias et quod eligendi, cumque est, optio quis voluptas autem nihil? Tempore, repudiandae quo! Esse unde odit error sequi.
+                        Pokud na tlačítko nápovědy kliknete, okno zůstane otevřené i po přesunu myši a pro uzavření okna je nutné kliknout mimo okno a tlačítko.
                     </div>
-                    <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, in iure molestias et quod eligendi, cumque est, optio quis voluptas autem nihil? Tempore, repudiandae quo! Esse unde odit error sequi.
-                    </div>
-                    <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, in iure molestias et quod eligendi, cumque est, optio quis voluptas autem nihil? Tempore, repudiandae quo! Esse unde odit error sequi.
-                    </div>
-                    <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, in iure molestias et quod eligendi, cumque est, optio quis voluptas autem nihil? Tempore, repudiandae quo! Esse unde odit error sequi.
-                    </div>
-                    <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, in iure molestias et quod eligendi, cumque est, optio quis voluptas autem nihil? Tempore, repudiandae quo! Esse unde odit error sequi.
-                    </div>
-                    <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, in iure molestias et quod eligendi, cumque est, optio quis voluptas autem nihil? Tempore, repudiandae quo! Esse unde odit error sequi.
-                    </div>
-                    <img src="gear.gif" alt="" width="100" height="100">
                 </div>
             </div>
-        </div>
-        <div id="inputs">
-            <div>
-                <span>Frekvence[Hz]</span>
-                <input type="number" min="0.001" value="1" id="frequency_input">
-            </div>
-            <div id="element_inputs">
-
-            </div>
-            <div>
-                <select id="voltage_current_select">
-                    <option value="I">Im[A]</option>
-                    <option value="U">Um[V]</option>           
-                </select>
-                <input type="number" min="0.001" value="1" id="voltage_current_input">
-            </div>
-            <div id="calculate_button">
-                <input type="button" value="Vypočítat" onclick="calculate()">
-            </div>
-        </div>
-        
-        <div id="calculation_steps">
-
-        </div>
+            .
+        </div>  
     </div>
-
+    <div class="copy_right">
+        &copy; 2024 Martin V.
+    </div>
     <script>
         let helps = document.getElementsByClassName('help');
         let unClicked = false;
@@ -107,11 +63,6 @@
             if (help) help.setAttribute('clicked', 'false');
         }
     </script>
-    <style>
-        .circuit_popup div mjx-container[display="true"] {
-            margin: 0 0 ! important
-        }
-    </style>
     
 </body>
 </html>

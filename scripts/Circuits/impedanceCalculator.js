@@ -7,16 +7,24 @@ const inputs = document.getElementById("inputs");
 const elementInputs = document.getElementById("element_inputs");
 const voltageCurrentSelect = document.getElementById("voltage_current_select");
 const voltageCurrentInput = document.getElementById("voltage_current_input");
+const frequencyInput = document.getElementById("frequency_input");
 const calculationSteps = document.getElementById("calculation_steps");
+const equationInput = document.getElementById('circuit_equation');
+const mainImageContainer = document.getElementById('main_image');
 
-function setEquation(equation) {
+function setEquation() {
+    let equation = equationInput.innerText;
     if (validate(equation)) {
-        circuit = new ResistorCircuit(equation);
+        circuit = new ImpedanceCircuit(equation);
         let variables = circuit.variables;
         createElementInputs(variables);
     } else {
         alert("Neplatný zápis obvodu.")
     }
+}
+
+function createRandom() {
+    equationInput.innerText = Circuit.randomEquation(['R', 'L', 'C']);
 }
 
 function validate(text) {
@@ -41,6 +49,8 @@ function validate(text) {
 function createElementInputs(elementNames) {
     calculationSteps.innerHTML = '';
     elementInputs.innerHTML = '';
+    mainImageContainer.innerHTML = '';
+    mainImageContainer.appendChild(circuit.mainImage);
     elementInputValues = [];
     for (const elementName of elementNames) {
         elementInputs.appendChild(createElementInput(elementName));
@@ -49,7 +59,17 @@ function createElementInputs(elementNames) {
 }
 
 function createElementInput(elementName) {
-    return createDiv(elementName, 'Ω');
+    switch(elementName[0].toLowerCase()) {
+        case 'c': {
+            return createDiv(elementName, 'μF');
+        }
+        case 'l': {
+            return createDiv(elementName, 'mH');
+        }
+        default: {
+            return createDiv(elementName, 'Ω');
+        }
+    }
 }
 
 function createDiv(name, units) {
@@ -68,13 +88,14 @@ function createDiv(name, units) {
 }
 
 function calculate() {
+    let frequency = getFrequency();
     for(let elementValue of elementInputValues) {
-        circuit.substitute(elementValue.name, getResistance(elementValue.value));
+        circuit.substitute(elementValue.name, getImpedance(elementValue.name, elementValue.value, frequency));
     }
     if (isCurrentSelected()) {
-        circuit.calculateFromCurrent(getVoltageCurrentValue());
+        circuit.calculateFromCurrent(new ComplexNumber(getVoltageCurrentValue(), 0));
     } else {
-        circuit.calculateFromVoltage(getVoltageCurrentValue());
+        circuit.calculateFromVoltage(new ComplexNumber(getVoltageCurrentValue(), 0));
     }
     calculationSteps.innerHTML = '';
     calculationSteps.appendChild(circuit.mainImage);
@@ -89,6 +110,10 @@ function calculate() {
     MathJax.typeset();
 }
 
+function getFrequency() {
+    return parseFloat(frequencyInput.value);
+}
+
 function isCurrentSelected() {
     return voltageCurrentSelect.value === 'I';
 }
@@ -97,6 +122,17 @@ function getVoltageCurrentValue() {
     return parseFloat(voltageCurrentInput.value);
 }
 
-function getResistance(value) {
-    return parseFloat(value);
+function getImpedance(elementName, value, frequency) {
+    value = parseFloat(value);
+    switch(elementName[0].toLowerCase()) {
+        case 'c': {
+            return new ComplexNumber(0, -1000000 / (frequency * 2 * Math.PI * value));
+        }
+        case 'l': {
+            return new ComplexNumber(0, frequency * 2 * Math.PI * value / 1000);
+        }
+        default: {
+            return new ComplexNumber(value, 0);
+        }
+    }
 }

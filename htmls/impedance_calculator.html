@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <script type="text/javascript" id="MathJax-script" async src="../scripts/MathJax/tex-chtml.js"></script>
+    <script src="../scripts/MathJax/helperFunctions.js"></script>
+    <script src="../scripts/ComplexNumbers/ComplexNumber.js"></script>
+    <script src="../scripts/BinaryExpressionTree/BinaryExpressionTree.js"></script>
+    <script src="../scripts/Circuits/Circuit.js"></script>
+    <script src="../scripts/Circuits/ImpedanceCircuit.js"></script>
+    <script defer src="../scripts/Circuits/impedanceCalculator.js"></script>
+    <script defer src="../scripts/Circuits/CircuitPopupWindow.js"></script>
+</head>
+<body>
+    <div class="side_panel">
+        <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg" id="side_panel_button">
+            <line x1="20%" y1="20%" x2="90%" y2="20%" stroke="black" stroke-linecap="round" stroke-width="10%"/>
+            <line x1="20%" y1="50%" x2="90%" y2="50%" stroke="black" stroke-linecap="round" stroke-width="10%"/>
+            <line x1="20%" y1="80%" x2="90%" y2="80%" stroke="black" stroke-linecap="round" stroke-width="10%"/>
+        </svg>
+        <nav>
+            <a href="../index.html">Domů</a>
+            <a href="fourier_transform.html">Fourierova transformace</a>
+            <a href="resistor_calculator.html">Kalkulačka rezistorů</a>     
+            <a href="capacitor_calculator.html">Kalkulačka kondenzátorů</a>
+        </nav>
+    </div>
+    
+    <div class="page_content" id="page_content">
+        <div style="width: 100%; text-align: center;">
+            <h1>Kalkulačka impedancí</h1>
+            <div class="help">
+                <div class="help_wrapper">
+                    <h2>Nápověda</h2>
+                    <div>
+                        Výtejte na stránce pro výpočet spojování impedancí.
+                    </div>
+                    <div>
+                        Pomocí vstupu "Popis obvodu" můžete zadat obvod. Obvod se zapisuje pomocí písmen R, L a C (odpor, cívka a kondenzátor). Pro zařazení prvků do jedné větve je možné použít jednoduché závorky - (). Pro sériové spojení prvků či větví je možné použít znak podtržítka - _. Pro paralelní spojení prvků či větví je možné použít znak svislé čáry - |.
+                    </div>
+                    <div>
+                        Po stisknutí tlačítka "Zadat obvod" se zobrazí schéma obvodu a zároveň vstupy pro zadání parametrů prvků.
+                    </div>
+                    <div>
+                        Po zadání parametrů je možné stisknout tlačítko "Vypočítat". Následně dojde k zobrazení postupu při spojování impedancí současně se schématy zjednodušených obvodů. Po najetí myší nad prvky ve schématech se nad schématem ukáže tabulka zobrazující vypočtené parametry prvku.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="equation_wrapper">
+            <input type="button" value="Náhodný obvod" onclick="createRandom()">
+            <div contenteditable="true" id="circuit_equation" placeholder="Popis obvodu"></div>
+            <input type="button" value="Zadat obvod" onclick="setEquation()">
+        </div>
+        <div id="main_image">
+
+        </div>
+        <div id="inputs">
+            <div>
+                <span>Frekvence[Hz]</span><input type="number" min="0.001" value="1" id="frequency_input">
+            </div>
+            <div id="element_inputs">
+
+            </div>
+            <div>
+                <select id="voltage_current_select">
+                    <option value="I">Im[A]</option>
+                    <option value="U">Um[V]</option>           
+                </select><input type="number" min="0.001" value="1" id="voltage_current_input">
+            </div> 
+            <div id="calculate_button">
+                <input type="button" value="Vypočítat" onclick="calculate()">
+            </div>
+        </div>
+        
+        <div id="calculation_steps">
+
+        </div>
+    </div>
+    <div class="copy_right">
+        &copy; 2024 Martin V.
+    </div>
+    <script>
+        let helps = document.getElementsByClassName('help');
+        let unClicked = false;
+        let lastClickedHelp;
+        document.addEventListener('mousedown', () => {
+            if (!unClicked) unClick(lastClickedHelp);
+            unClicked = false;
+        });
+        for (const help of helps) {
+            help.addEventListener('mousedown', () => {
+                unClick(lastClickedHelp);
+                lastClickedHelp = help;
+                help.setAttribute('clicked', 'true');
+                unClicked = true;
+            });
+        }
+
+        function unClick(help) {
+            if (help) help.setAttribute('clicked', 'false');
+        }
+    </script>
+    
+</body>
+</html>

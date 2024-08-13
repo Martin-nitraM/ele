@@ -1,6 +1,11 @@
+/*ROOT*/
 :root{
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(61, 61, 61, 0.2));
+    font-size: 4vw;
+    --side-panel-width: 20rem;
+    --side-panel-button-size: 3rem;
 }
+/*SIDE PANEL*/
 .side_panel{
     width: fit-content;
     position: fixed;
@@ -8,68 +13,83 @@
     top: 0;
     z-index: 10;
 }
+.side_panel nav{
+    max-width: 0;
+    transition: max-width 0.3s;
+    transition-timing-function: linear;
+    left: 0px;
+    top: 0px;
+    background-color: rgb(29, 29, 29);
+    overflow-x: hidden;
+    height: 100vh;
+    position: absolute;
+}
+.side_panel nav a:hover{
+    color: #f1f1f1;
+}
+.side_panel nav a{
+    padding: 0.5rem 0.7rem;
+    text-decoration: none;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+.side_panel:hover nav, .side_panel:active nav{
+    max-width: var(--side-panel-width);
+}
 .side_panel svg{
     opacity: 0.7;
+    width: var(--side-panel-button-size);
+    height: auto;
 }
 .side_panel svg:hover{
     opacity: 1;
 }
+/*PAGE CONTENT*/
 .page_content{
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: justify;
-    margin-left: 150px;
-    margin-right: 50px;
+    margin-left: calc(var(--side-panel-button-size) + 2rem);
+    margin-right: 2rem;
     position: relative;
 }
-body{
-    font-size: 1.5rem;
-}
+/*CIRCUIT INPUTS*/
 #circuit_equation, input {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 #circuit_equation {
     display: block;
-    font-size: 2rem;
     margin-left: auto;
     margin-right: auto;
     font-family: 'Courier New', Courier, monospace;
-    padding: 10px;
+    padding: 0.7rem;
     background-color: whitesmoke;
-    min-width: 250px;
     overflow-x: auto;
     overflow-wrap: normal;
-    width: 300px;
-    border: 2px solid black;
-    border-radius: 5px;
+    width: 15rem;
+    border: 0.1rem solid black;
+    border-radius: 0.35rem;
 }
-.final_results div{
-    display: flex;
-    flex-direction: column;
+.equation_wrapper{
+    justify-content: center;
     text-align: center;
 }
-.final_results div *{
-    margin-bottom: 1em;
+.equation_wrapper input[type=button]{
+    vertical-align: middle;
 }
-mjx-container{
-    display: block;
-    overflow-y: hidden;
-    overflow-x: auto;
-    left: 50%;
-    transform: translate(-50%, 0);
-    max-width: 70%;
-    padding: 1px;
-}
-#element_inputs {
+/*ELEMENT VALUE INPUTS*/
+#element_inputs{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     width: fit-content;
 }
 #inputs{
-    margin-top: 2rem;
+    margin-top: 1rem;
     display: none;
     margin-left: auto;
     margin-right: auto;
@@ -83,33 +103,114 @@ mjx-container{
     margin-right: auto;
 }
 select{
-    font-size: 1.5rem;
-    padding: 3px;
     background: transparent;
     border: none;
     font-family: 'Times New Roman';
 }
+#inputs * span, #inputs * select{
+    margin-right: 0.5rem;
+}
+/*CALCULATION*/
 #calculation_steps{
     text-align: center;
     width: 100%;
 }
-.equation_wrapper{
+/*CANVAS*/
+canvas{
+    margin-top: 2rem;
+    max-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.ft_canvas {
+    border-radius: 0.1rem;
+    box-shadow: 0 0 7px 3px rgb(163, 163, 163);
+    background-color: white;
+}
+.draw_canvas_container{
+    display: flex;
     justify-content: center;
+    flex-direction: column;
+    margin-bottom: 3rem;
+}
+/*IMAGES*/
+img{
+    max-width: 10rem;
+}
+/*RESULTS*/
+.final_results div{
+    display: flex;
+    flex-direction: column;
     text-align: center;
 }
-.equation_wrapper input[type=button]{
-    vertical-align: middle;
+.final_results div *{
+    margin-bottom: 1rem;
+}
+
+/*MATHJAX*/
+mjx-container{
+    font-size: 0.7rem !important;
+    display: block;
+    overflow-y: hidden;
+    overflow-x: auto;
+    left: 50%;
+    transform: translate(-50%, 0);
+    max-width: 90%;
+    padding: 3px;
+}
+
+/*CIRCUIT POPUP*/
+.circuit_popup div mjx-container[display="true"] {
+    margin: 0 0 !important;
+}
+.circuit_popup div mjx-container{
+    max-width: 100%;
+    display: block;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+.circuit_popup {
+    position: absolute;
+    background-color: white;
+    border-radius: 0.7rem;
+    text-align: center;
+    padding: 0.7rem;
+    padding-bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -7rem);
+    box-shadow: 0px 0px 7px 3px black;
+    width: max-content;
+}
+.circuit_popup *{
+    margin-bottom: 1px;
+}
+
+/*COMMON STYLES*/
+input, select{
+    font-size: 1rem;
+}
+h1{
+    font-size: 1.2rem;
+}
+h2{
+    font-size: 1.1rem;
+}
+h1, h2{
+    width: fit-content;
+    display: inline-block;
 }
 [contenteditable=true]:empty:not(:focus)::before{
+    font-size: 1rem;
     content:attr(placeholder);
     color: gray;
     pointer-events: none;
 }
 .help{
     display: inline-block;
-    width: 1rem;
-    height: 1rem;
-    font-size: 0.9rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    font-size: 0.5rem;
     content: '?';
     color: black;
     text-align: center;
@@ -117,35 +218,42 @@ select{
     border-radius: 1rem;
     cursor:pointer;
     position: relative;
-    top: -2rem;
+    top: -0.9rem;
     background-color: white;
 }
 .help::before{
     content: '?';
 }
 .help .help_wrapper{
-    left: 50px;
+    font-size: 0.7rem;
+    z-index: 9;
     background-color: white;
     border-radius: 10px;
     top: 30%;
-    left: 50%;
+    left: calc(100% / 2 + 1.5rem);
     transform: translate(-50%, -30%) scale(0);
     position: fixed;
     overflow-y: auto;
     max-height: 50%;
-    max-width: 30%;
+    width: 70%;
     cursor: default;
     transition: 0.3s;
+    padding: 0.1rem;
+    box-shadow: 0px 0px 7px 3px black;
 }
 .help .help_wrapper *{
-    margin: 10px;
+    margin-bottom: 0.5rem;
 }
 .help:hover .help_wrapper, .help:active .help_wrapper,.help[clicked=true] .help_wrapper{
-    transform: translate(-50%, -20%) scale(1);
+    transform: translate(-50%, -30%) scale(1);
 }
-input{
-    font-size: 2rem;
-    margin: 10px;
+.copy_right{
+    position: fixed;
+    bottom: 1rem;
+    font-size: 0.63rem;
+    color: #818181;
+    z-index: 21;
+    font-weight: bold;
 }
 ::-webkit-scrollbar{
     width: 10px;
@@ -162,90 +270,83 @@ input{
 ::-webkit-scrollbar-thumb:hover {
     background: rgb(63, 63, 63); 
 }
-.side_panel nav{
-    max-width: 0;
-    transition: max-width 0.3s;
-    transition-timing-function: linear;
-    left: 0px;
-    top: 0px;
-    background-color: rgb(29, 29, 29);
-    overflow-x: hidden;
-    height: 100vh;
-    position: absolute;
-}
 
-.side_panel nav a{
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-    white-space: nowrap;
-}
-
-.side_panel nav a:hover{
-    color: #f1f1f1;
-}
-
-.side_panel:hover nav, .side_panel:active nav{
-    max-width: 350px;
-}
-
-canvas {
-    max-width: 100%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-.circuit_popup div mjx-container{
-    max-width: 100%;
-    display: block;
-    overflow-y: hidden;
-    overflow-x: hidden;
-    margin: 0;
-}
-.circuit_popup {
-    position: absolute;
-    background-color: white;
-    border-radius: 10px;
-    text-align: center;
-    padding: 10px;
-    padding-bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-    box-shadow: 0px 0px 7px 3px black;
-    width: max-content;
-}
-.circuit_popup *{
-    margin-bottom: 1px;
-}
-
-@media (min-width:1400px) {
-    .page_content {
-        margin-left: 350px;
+@media (min-width: 300px) {
+    :root{
+        font-size: 0.9rem;
     }
+}
+@media (min-width:375px) {
+    :root{
+        font-size: 1.1rem;
+    }
+}
+@media (min-width:425px) {
+    :root{
+        font-size: 1.2rem;
+    }
+}
+@media (min-width:500px) {
+    :root{
+        font-size: 1.4rem;
+    }
+}
+@media (min-width:700px) {
+    .draw_canvas_container{
+        flex-direction: row;
+    }
+    .draw_canvas_container canvas{
+        max-width: 45%;
+    }
+}
+@media (min-width:1100px) {
     .side_panel nav{
-        max-width: 350px;
+        max-width: var(--side-panel-width);
+    }
+    .page_content{
+        margin-left: 14rem;
     }
     .help .help_wrapper{
-        left: 60%;
-        transform: translate(-60%, -30%) scale(0);
+        left: calc(100% / 2 + 6rem);
+        transform: translate(-50%, -30%) scale(0);
+        width: 50%;
     }
 }
-
-@media (min-width:1100px) {
+@media (min-width:1250px) {
+    .side_panel nav{
+        max-width: var(--side-panel-width);
+    }
+    .page_content{
+        margin-left: 14rem;
+    }
+    .help .help_wrapper{
+        left: calc(100% / 2 + 6rem);
+        transform: translate(-50%, -30%) scale(0);
+        width: 50%;
+    }
     #circuit_equation {
         display: inline-block;  
         vertical-align:middle;
     }
 }
-
-@media (max-width:800px) {
+@media (min-width:1400px) {
+    :root{
+        font-size: 1.7rem;
+    }
+}
+@media (min-width:1600px) {
+    :root{
+        font-size: 2rem;
+    }
+}
+@media (max-width:1599px) {
     #inputs *{
         display: block;
         text-align: center;
         margin-left: auto;
+        margin-right: auto;
+    }
+    #inputs * span, #inputs * select{
         margin-right: auto;
     }
 }
