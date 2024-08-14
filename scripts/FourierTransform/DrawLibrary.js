@@ -153,11 +153,11 @@ function worker_function(){
         }
  
         get origin() {
-            return {x: this.originX + this.offsetX, y: this.originY + this.offsetY};
+            return new Coordinate(this.originX + this.offsetX, this.originY + this.offsetY);
         }
 
         get end() {
-            return {x: this.x + this.offsetX, y: this.y + this.offsetY};
+            return new Coordinate(this.x + this.offsetX, this.y + this.offsetY);
         }
 
         drawCircle(context) {
@@ -598,6 +598,7 @@ function worker_function(){
             let oY = canvas.height / 2;
             createVectors(data.X, oX, oY);
             let fourierTransform = new FourierTransform(data.length, context, "#9AD800", 2.1, 3, canvas.width, canvas.height, data.X);
+            if (data.count) fourierTransform.setCount(data.count);
             fourierTransform.addNewFunctionPointToPath();
             ft.initilize(fourierTransform, drawFunctionContinuesly);
             ft.start();
@@ -713,8 +714,8 @@ function addCanvas(canvasId) {
     return currentCanvasIndex++;
 }
 
-function activateFunctionCanvas(canvasIndex, X, length) {
-    worker.postMessage({X: X, length: length, drawFunction: true, canvasIndex: canvasIndex});
+function activateFunctionCanvas(canvasIndex, X, length, count) {
+    worker.postMessage({X: X, length: length, drawFunction: true, canvasIndex: canvasIndex, count: count});
 }
 
 function activateImageCanvas(canvasIndex, X, length) {

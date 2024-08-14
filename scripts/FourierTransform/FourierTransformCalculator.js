@@ -13,18 +13,15 @@ let originY = 333;
 window.onload = function() {
     canvasIndexes[squareCanvas] = addCanvas(squareCanvas);
     let X = createSquareWave();
-    activateFunctionCanvas(canvasIndexes[squareCanvas], X, 300);
-    setVectorsCount(1, canvasIndexes[squareCanvas]);
+    activateFunctionCanvas(canvasIndexes[squareCanvas], X, 300, 1);
 
     canvasIndexes[sawCanvas] = addCanvas(sawCanvas);
     X = createSawWave();
-    activateFunctionCanvas(canvasIndexes[sawCanvas], X, 300);
-    setVectorsCount(1, canvasIndexes[sawCanvas]);
+    activateFunctionCanvas(canvasIndexes[sawCanvas], X, 300, 1);
 
     canvasIndexes[triangleCanvas] = addCanvas(triangleCanvas);
     X = createTriangleWave();
-    activateFunctionCanvas(canvasIndexes[triangleCanvas], X, 300);
-    setVectorsCount(1, canvasIndexes[triangleCanvas]);
+    activateFunctionCanvas(canvasIndexes[triangleCanvas], X, 300, 1);
 
     canvasIndexes[fourierCanvas] = addCanvas(fourierCanvas);
 
